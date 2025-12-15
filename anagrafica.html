@@ -1,49 +1,131 @@
 <!DOCTYPE html>
-</tr>
-<tr>
-<td id="tSesso"></td>
-<td id="tDiplomi"></td>
-<td id="tProvincia"></td>
-<td id="tSport"></td>
-</tr>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Esercizio Input e Tabella</title>
+</head>
+<body>
+
+<h2>Inserisci i dati</h2>
+
+Nome:<br>
+<input type="text" id="nome"><br><br>
+
+Cognome:<br>
+<input type="text" id="cognome"><br><br>
+
+Indirizzo:<br>
+<input type="text" id="indirizzo"><br><br>
+
+Città:<br>
+<input type="text" id="citta"><br><br>
+
+<button onclick="mostraDati()">Visualizza</button>
+
+<br><br>
+
+<table border="1">
+    <tr>
+        <th>Nome</th>
+        <th>Cognome</th>
+        <th>Indirizzo</th>
+        <th>Città</th>
+    </tr>
+    <tr>
+        <td id="tNome"></td>
+        <td id="tCognome"></td>
+        <td id="tIndirizzo"></td>
+        <td id="tCitta"></td>
+    </tr>
 </table>
 
+<br><br>
+
+Sesso:<br>
+<input type="radio" name="sesso" value="Maschio"> Maschio<br>
+<input type="radio" name="sesso" value="Femmina"> Femmina<br><br>
+
+Diplomi posseduti:<br>
+<input type="checkbox" id="medie"> Licenza Media<br>
+<input type="checkbox" id="superiori"> Diploma Superiore<br>
+<input type="checkbox" id="laurea"> Laurea<br><br>
+
+Provincia:<br>
+<select id="provincia">
+    <option value="">-- Seleziona --</option>
+    <option value="MI">MI</option>
+    <option value="RM">RM</option>
+    <option value="TO">TO</option>
+    <option value="NA">NA</option>
+</select><br><br>
+
+Sport praticati:<br>
+<select id="sport" multiple size="4">
+    <option>Calcio</option>
+    <option>Basket</option>
+    <option>Nuoto</option>
+    <option>Tennis</option>
+</select>
+
+<br><br>
+
+<table border="1">
+    <tr>
+        <th>Sesso</th>
+        <th>Diplomi</th>
+        <th>Provincia</th>
+        <th>Sport</th>
+    </tr>
+    <tr>
+        <td id="tSesso"></td>
+        <td id="tDiplomi"></td>
+        <td id="tProvincia"></td>
+        <td id="tSport"></td>
+    </tr>
+</table>
 
 <script>
-function mostraDati() {
-document.getElementById("tNome").innerHTML = document.getElementById("nome").value;
-document.getElementById("tCognome").innerHTML = document.getElementById("cognome").value;
-document.getElementById("tIndirizzo").innerHTML = document.getElementById("indirizzo").value;
-document.getElementById("tCitta").innerHTML = document.getElementById("citta").value;
+    function mostraDati() {
+        const anagrafica = {};
 
-let sesso = "";
-const radios = document.getElementsByName("sesso");
-for (let i = 0; i < radios.length; i++) {
-if (radios[i].checked) {
-sesso = radios[i].value;
-}
-}
-document.getElementById("tSesso").innerHTML = sesso;
+        anagrafica.nome = document.getElementById("nome").value;
+        anagrafica.cognome = document.getElementById("cognome").value;
+        anagrafica.indirizzo = document.getElementById("indirizzo").value;
+        anagrafica.citta = document.getElementById("citta").value;
 
-let diplomi = "";
-if (document.getElementById("medie").checked) diplomi += "Medie ";
-if (document.getElementById("superiori").checked) diplomi += "Superiori ";
-if (document.getElementById("laurea").checked) diplomi += "Laurea";
-document.getElementById("tDiplomi").innerHTML = diplomi;
+        // sesso
+        anagrafica.sesso = "";
+        const radios = document.getElementsByName("sesso");
+        for (let i = 0; i < radios.length; i++) {
+            if (radios[i].checked) {
+                anagrafica.sesso = radios[i].value;
+            }
+        }
 
-document.getElementById("tProvincia").innerHTML = document.getElementById("provincia").value;
+        anagrafica.diplomi = "";
+        if (document.getElementById("medie").checked) anagrafica.diplomi += "Medie ";
+        if (document.getElementById("superiori").checked) anagrafica.diplomi += "Superiori ";
+        if (document.getElementById("laurea").checked) anagrafica.diplomi += "Laurea";
 
-const sportSelect = document.getElementById("sport");
-let sportScelti = "";
-for (let i = 0; i < sportSelect.options.length; i++) {
-if (sportSelect.options[i].selected) {
-sportScelti += sportSelect.options[i].text + " ";
-}
-}
-document.getElementById("tSport").innerHTML = sportScelti;
-}
+        anagrafica.provincia = document.getElementById("provincia").value;
+
+        anagrafica.sport = "";
+        const sportSelect = document.getElementById("sport");
+        for (let i = 0; i < sportSelect.options.length; i++) {
+            if (sportSelect.options[i].selected) {
+                anagrafica.sport += sportSelect.options[i].text + " ";
+            }
+        }
+        document.getElementById("tNome").innerHTML = anagrafica.nome;
+        document.getElementById("tCognome").innerHTML = anagrafica.cognome;
+        document.getElementById("tIndirizzo").innerHTML = anagrafica.indirizzo;
+        document.getElementById("tCitta").innerHTML = anagrafica.citta;
+        document.getElementById("tSesso").innerHTML = anagrafica.sesso;
+        document.getElementById("tDiplomi").innerHTML = anagrafica.diplomi;
+        document.getElementById("tProvincia").innerHTML = anagrafica.provincia;
+        document.getElementById("tSport").innerHTML = anagrafica.sport;
+    }
 </script>
-
 
 </body>
 </html>
