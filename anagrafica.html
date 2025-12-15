@@ -1,52 +1,49 @@
 <!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <title>Esercizio Input e Tabella</title>
-</head>
-<body>
-
-<h2>Inserisci i dati</h2>
-
-Nome:<br>
-<input type="text" id="nome"><br><br>
-
-Cognome:<br>
-<input type="text" id="cognome"><br><br>
-
-Indirizzo:<br>
-<input type="text" id="indirizzo"><br><br>
-
-Città:<br>
-<input type="text" id="citta"><br><br>
-
-<button onclick="mostraDati()">Visualizza</button>
-
-<br><br>
-
-<table border="1">
-    <tr>
-        <th>Nome</th>
-        <th>Cognome</th>
-        <th>Indirizzo</th>
-        <th>Città</th>
-    </tr>
-    <tr>
-        <td id="tNome"></td>
-        <td id="tCognome"></td>
-        <td id="tIndirizzo"></td>
-        <td id="tCitta"></td>
-    </tr>
+</tr>
+<tr>
+<td id="tSesso"></td>
+<td id="tDiplomi"></td>
+<td id="tProvincia"></td>
+<td id="tSport"></td>
+</tr>
 </table>
 
+
 <script>
-    function mostraDati() {
-        document.getElementById("tNome").innerHTML = document.getElementById("nome").value;
-        document.getElementById("tCognome").innerHTML = document.getElementById("cognome").value;
-        document.getElementById("tIndirizzo").innerHTML = document.getElementById("indirizzo").value;
-        document.getElementById("tCitta").innerHTML = document.getElementById("citta").value;
-    }
+function mostraDati() {
+document.getElementById("tNome").innerHTML = document.getElementById("nome").value;
+document.getElementById("tCognome").innerHTML = document.getElementById("cognome").value;
+document.getElementById("tIndirizzo").innerHTML = document.getElementById("indirizzo").value;
+document.getElementById("tCitta").innerHTML = document.getElementById("citta").value;
+
+let sesso = "";
+const radios = document.getElementsByName("sesso");
+for (let i = 0; i < radios.length; i++) {
+if (radios[i].checked) {
+sesso = radios[i].value;
+}
+}
+document.getElementById("tSesso").innerHTML = sesso;
+
+let diplomi = "";
+if (document.getElementById("medie").checked) diplomi += "Medie ";
+if (document.getElementById("superiori").checked) diplomi += "Superiori ";
+if (document.getElementById("laurea").checked) diplomi += "Laurea";
+document.getElementById("tDiplomi").innerHTML = diplomi;
+
+document.getElementById("tProvincia").innerHTML = document.getElementById("provincia").value;
+
+const sportSelect = document.getElementById("sport");
+let sportScelti = "";
+for (let i = 0; i < sportSelect.options.length; i++) {
+if (sportSelect.options[i].selected) {
+sportScelti += sportSelect.options[i].text + " ";
+}
+}
+document.getElementById("tSport").innerHTML = sportScelti;
+}
 </script>
+
 
 </body>
 </html>
