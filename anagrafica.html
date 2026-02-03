@@ -1,131 +1,93 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <title>Esercizio Input e Tabella</title>
-</head>
-<body>
+<meta charset="UTF-8">
+<title>Anagrafica 4.0</title>
 
-<h2>Inserisci i dati</h2>
-
-Nome:<br>
-<input type="text" id="nome"><br><br>
-
-Cognome:<br>
-<input type="text" id="cognome"><br><br>
-
-Indirizzo:<br>
-<input type="text" id="indirizzo"><br><br>
-
-Città:<br>
-<input type="text" id="citta"><br><br>
-
-<button onclick="mostraDati()">Visualizza</button>
-
-<br><br>
-
-<table border="1">
-    <tr>
-        <th>Nome</th>
-        <th>Cognome</th>
-        <th>Indirizzo</th>
-        <th>Città</th>
-    </tr>
-    <tr>
-        <td id="tNome"></td>
-        <td id="tCognome"></td>
-        <td id="tIndirizzo"></td>
-        <td id="tCitta"></td>
-    </tr>
-</table>
-
-<br><br>
-
-Sesso:<br>
-<input type="radio" name="sesso" value="Maschio"> Maschio<br>
-<input type="radio" name="sesso" value="Femmina"> Femmina<br><br>
-
-Diplomi posseduti:<br>
-<input type="checkbox" id="medie"> Licenza Media<br>
-<input type="checkbox" id="superiori"> Diploma Superiore<br>
-<input type="checkbox" id="laurea"> Laurea<br><br>
-
-Provincia:<br>
-<select id="provincia">
-    <option value="">-- Seleziona --</option>
-    <option value="MI">MI</option>
-    <option value="RM">RM</option>
-    <option value="TO">TO</option>
-    <option value="NA">NA</option>
-</select><br><br>
-
-Sport praticati:<br>
-<select id="sport" multiple size="4">
-    <option>Calcio</option>
-    <option>Basket</option>
-    <option>Nuoto</option>
-    <option>Tennis</option>
-</select>
-
-<br><br>
-
-<table border="1">
-    <tr>
-        <th>Sesso</th>
-        <th>Diplomi</th>
-        <th>Provincia</th>
-        <th>Sport</th>
-    </tr>
-    <tr>
-        <td id="tSesso"></td>
-        <td id="tDiplomi"></td>
-        <td id="tProvincia"></td>
-        <td id="tSport"></td>
-    </tr>
-</table>
+<style>
+body { font-family: Arial; padding: 20px; }
+input { margin: 5px 0; padding: 8px; width: 250px; }
+button { padding: 10px 20px; margin-top: 10px; cursor: pointer; }
+table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+th, td { border: 1px solid black; padding: 8px; text-align: center; }
+th { background-color: #ddd; }
+</style>
 
 <script>
-    function mostraDati() {
-        const anagrafica = {};
+function aggiungi() {
+let nome = document.getElementById("nome").value;
+let cognome = document.getElementById("cognome").value;
+let eta = document.getElementById("eta").value;
+let citta = document.getElementById("citta").value;
+let provincia = document.getElementById("provincia").value;
+let nazione = document.getElementById("nazione").value;
 
-        anagrafica.nome = document.getElementById("nome").value;
-        anagrafica.cognome = document.getElementById("cognome").value;
-        anagrafica.indirizzo = document.getElementById("indirizzo").value;
-        anagrafica.citta = document.getElementById("citta").value;
+if (!nome || !cognome || !eta) {
+alert("Compila almeno nome, cognome ed età.");
+return;
+}
 
-        // sesso
-        anagrafica.sesso = "";
-        const radios = document.getElementsByName("sesso");
-        for (let i = 0; i < radios.length; i++) {
-            if (radios[i].checked) {
-                anagrafica.sesso = radios[i].value;
-            }
-        }
+let persona = {
+nome: nome,
+cognome: cognome,
+eta: eta,
+citta: citta,
+provincia: provincia,
+nazione: nazione
+};
 
-        anagrafica.diplomi = "";
-        if (document.getElementById("medie").checked) anagrafica.diplomi += "Medie ";
-        if (document.getElementById("superiori").checked) anagrafica.diplomi += "Superiori ";
-        if (document.getElementById("laurea").checked) anagrafica.diplomi += "Laurea";
+let elenco = JSON.parse(localStorage.getItem("anagrafica")) || [];
+elenco.push(persona);
+localStorage.setItem("anagrafica", JSON.stringify(elenco));
 
-        anagrafica.provincia = document.getElementById("provincia").value;
+aggiornaTabella();
 
-        anagrafica.sport = "";
-        const sportSelect = document.getElementById("sport");
-        for (let i = 0; i < sportSelect.options.length; i++) {
-            if (sportSelect.options[i].selected) {
-                anagrafica.sport += sportSelect.options[i].text + " ";
-            }
-        }
-        document.getElementById("tNome").innerHTML = anagrafica.nome;
-        document.getElementById("tCognome").innerHTML = anagrafica.cognome;
-        document.getElementById("tIndirizzo").innerHTML = anagrafica.indirizzo;
-        document.getElementById("tCitta").innerHTML = anagrafica.citta;
-        document.getElementById("tSesso").innerHTML = anagrafica.sesso;
-        document.getElementById("tDiplomi").innerHTML = anagrafica.diplomi;
-        document.getElementById("tProvincia").innerHTML = anagrafica.provincia;
-        document.getElementById("tSport").innerHTML = anagrafica.sport;
-    }
+document.getElementById("nome").value = "";
+document.getElementById("cognome").value = "";
+document.getElementById("eta").value = "";
+document.getElementById("citta").value = "";
+document.getElementById("provincia").value = "";
+document.getElementById("nazione").value = "";
+}
+
+function aggiornaTabella() {
+let elenco = JSON.parse(localStorage.getItem("anagrafica")) || [];
+
+let tab = "<table>";
+tab += "<tr><th>Nome</th><th>Cognome</th><th>Età</th><th>Città</th><th>Provincia</th><th>Nazione</th></tr>";
+
+for (let p of elenco) {
+tab += "<tr>" +
+"<td>" + p.nome + "</td>" +
+"<td>" + p.cognome + "</td>" +
+"<td>" + p.eta + "</td>" +
+"<td>" + p.citta + "</td>" +
+"<td>" + p.provincia + "</td>" +
+"<td>" + p.nazione + "</td>" +
+"</tr>";
+}
+
+tab += "</table>";
+document.getElementById("risultato").innerHTML = tab;
+}
+
+window.onload = aggiornaTabella;
 </script>
+</head>
 
+<body>
+<h2>Anagrafica Completa</h2>
+
+<input type="text" id="nome" placeholder="Nome"><br>
+<input type="text" id="cognome" placeholder="Cognome"><br>
+<input type="number" id="eta" placeholder="Età"><br>
+<input type="text" id="citta" placeholder="Città"><br>
+<input type="text" id="provincia" placeholder="Provincia"><br>
+<input type="text" id="nazione" placeholder="Nazione"><br>
+
+<button onclick="aggiungi()">Aggiungi</button>
+
+<div id="risultato"></div>
 </body>
 </html>
+
